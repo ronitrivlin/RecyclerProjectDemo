@@ -20,6 +20,7 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
     private ArrayList<Item> items;
+    private int i = 5;
     private RecyclerView recyclerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
