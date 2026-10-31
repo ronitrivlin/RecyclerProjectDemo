@@ -13,6 +13,9 @@
         android:theme="@style/Theme.RecyclerProjectDemo">
         <activity
             android:name=".MainActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".SignIn"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>

@@ -1,8 +1,10 @@
 package com.example.recyclerprojectdemo;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -82,13 +84,32 @@ public class MainActivity extends AppCompatActivity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Random rnd = new Random();
+             /*   Random rnd = new Random();
                 int num = rnd.nextInt(100);
                 Item item5 = new Item("ee"+num, "eeeeee", 5);
                 items.add(item5);
                 // adapter.notifyDataSetChanged();
                 adapter.notifyItemInserted(items.size()-1);
+*/
 
+                View dialogView = getLayoutInflater().inflate(R.layout.add_item, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setView(dialogView);
+                final AlertDialog customDialog = builder.create();
+                customDialog.show();
+                Button add = customDialog.findViewById(R.id.btnAddItem);
+                add.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        EditText name = customDialog.findViewById(R.id.etAddName);
+                        EditText desc = customDialog.findViewById(R.id.etAddDesc);
+                        Item item = new Item(name.getText().toString(), desc.getText().toString(), 5);
+                        items.add(item);
+                        // adapter.notifyDataSetChanged();
+                        adapter.notifyItemInserted(items.size()-1);
+                        customDialog.dismiss();
+                    }
+                });
             }
         });
     }
