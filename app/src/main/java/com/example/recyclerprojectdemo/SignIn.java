@@ -1,5 +1,8 @@
 package com.example.recyclerprojectdemo;
 
+import static android.app.ProgressDialog.show;
+import static com.example.recyclerprojectdemo.FirebaseRef.refAuth;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -8,12 +11,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SignIn extends AppCompatActivity {
 
@@ -62,7 +73,27 @@ public class SignIn extends AppCompatActivity {
                 reg.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
                         customDialog.findViewById(R.id.etRegName);
+                        EditText etEmail = customDialog.findViewById(R.id.etRegEmail);
+                        EditText etPass = customDialog.findViewById(R.id.etRegPass);
+                        String email = etEmail.getText().toString();
+                        String pass = etPass.getText().toString();
+                        refAuth.createUserWithEmailAndPassword(email, pass)
+                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {     // נוציא הודעה שהצלחנו
+                                            FirebaseUser user = refAuth.getCurrentUser();
+                                            Toast.makeText(SignIn.this, user.getUid(),
+                                                    Toast.LENGTH_LONG).show();
+                                        } else {
+                                            Toast.makeText(SignIn.this, "Error. Please try again later.",
+                                            Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
+
                     }
                 });
             }
