@@ -42,12 +42,12 @@ public class SignIn extends AppCompatActivity {
         });
 
         sharedPref = getSharedPreferences("MyDemoAdd2627", Context.MODE_PRIVATE);
-//        Boolean isChecked = sharedPref.getBoolean("stayConnect",false);
-//        // change so if it is ok, move to next activity
-//        if (isChecked) {
-//            Intent intent = new Intent(SignIn.this,MainActivity.class);
-//            startActivity(intent);
-//        }
+        Boolean isChecked = sharedPref.getBoolean("stayConnect",false);
+        // change so if it is ok, move to next activity
+        if (isChecked && refAuth.getCurrentUser()!=null) {
+            Intent intent = new Intent(SignIn.this,MainActivity.class);
+            startActivity(intent);
+        }
 
         Button signIn = findViewById(R.id.btnSignin);
         signIn.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +87,7 @@ public class SignIn extends AppCompatActivity {
                                             FirebaseUser user = refAuth.getCurrentUser();
                                             Toast.makeText(SignIn.this, user.getUid(),
                                                     Toast.LENGTH_LONG).show();
+                                            customDialog.dismiss();
                                         } else {
                                             Toast.makeText(SignIn.this, "Error. Please try again later.",
                                             Toast.LENGTH_LONG).show();
